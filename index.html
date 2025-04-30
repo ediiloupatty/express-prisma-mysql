@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Informasi Akademik</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="script.js">
+    <style>
+        .navbar-brand {
+            font-weight: bold;
+        }
+        .nav-tabs .nav-link.active {
+            font-weight: bold;
+            border-bottom: 2px solid #0d6efd;
+        }
+        .table-responsive {
+            margin-top: 20px;
+        }
+        .btn-action {
+            margin-right: 5px;
+        }
+        .loader {
+            display: none;
+            margin: 20px auto;
+            text-align: center;
+        }
+        .form-container {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .tab-content {
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">Sistem Informasi Akademik</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">Tentang</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h1 class="mb-4">Data Akademik</h1>
+        
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button">User</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="jurusan-tab" data-bs-toggle="tab" data-bs-target="#jurusan" type="button">Jurusan</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="prodi-tab" data-bs-toggle="tab" data-bs-target="#prodi" type="button">Prodi</button>
+            </li>
+        </ul>
+        
+        <div class="tab-content" id="myTabContent">
+            <!-- Tab User -->
+            <div class="tab-pane fade show active" id="users" role="tabpanel">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3>Daftar User</h3>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
+                        <i class="fas fa-plus"></i> Tambah User
+                    </button>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover" id="userTable">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Kode</th>
+                                <th>Nama</th>
+                                <th>No. Telp</th>
+                                <th>Jurusan</th>
+                                <th>Prodi</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="userTableBody">
+                            <!-- Data akan diisi melalui JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="loader" id="userLoader">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tab Jurusan -->
+            <div class="tab-pane fade" id="jurusan" role="tabpanel">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3>Daftar Jurusan</h3>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addJurusanModal">
+                        <i class="fas fa-plus"></i> Tambah Jurusan
+                    </button>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover" id="jurusanTable">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Nama Jurusan</th>
+                                <th>Ketua Jurusan</th>
+                                <th>Jumlah Prodi</th>
+                                <th>Tanggal Dibuat</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="jurusanTableBody">
+                            <!-- Data akan diisi melalui JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="loader" id="jurusanLoader">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tab Prodi -->
+            <div class="tab-pane fade" id="prodi" role="tabpanel">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3>Daftar Program Studi</h3>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProdiModal">
+                        <i class="fas fa-plus"></i> Tambah Prodi
+                    </button>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover" id="prodiTable">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Nama Prodi</th>
+                                <th>Ketua Prodi</th>
+                                <th>Jurusan</th>
+                                <th>Tanggal Dibuat</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="prodiTableBody">
+                            <!-- Data akan diisi melalui JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="loader" id="prodiLoader">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Tambah User -->
+    <div class="modal fade" id="addUserModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tambah User Baru</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addUserForm">
+                        <div class="mb-3">
+                            <label for="kode" class="form-label">Kode</label>
+                            <input type="text" class="form-control" id="kode" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="nama" class="form-label">Nama</label>
+                            <input type="text" class="form-control" id="nama" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="no_telp" class="form-label">No. Telp</label>
+                            <input type="text" class="form-control" id="no_telp">
+                        </div>
+                        <div class="mb-3">
+                            <label for="jurusanId" class="form-label">Jurusan</label>
+                            <select class="form-select" id="jurusanId" required>
+                                <option value="">Pilih Jurusan</option>
+                                <!-- Options will be filled via JavaScript -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="prodiId" class="form-label">Prodi</label>
+                            <select class="form-select" id="prodiId">
+                                <option value="">Pilih Prodi</option>
+                                <!-- Options will be filled via JavaScript -->
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Tambah Jurusan -->
+    <div class="modal fade" id="addJurusanModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tambah Jurusan Baru</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addJurusanForm">
+                        <div class="mb-3">
+                            <label for="nama_jurusan" class="form-label">Nama Jurusan</label>
+                            <input type="text" class="form-control" id="nama_jurusan" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="ketua_jurusan" class="form-label">Ketua Jurusan</label>
+                            <input type="text" class="form-control" id="ketua_jurusan" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Tambah Prodi -->
+    <div class="modal fade" id="addProdiModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tambah Prodi Baru</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addProdiForm">
+                        <div class="mb-3">
+                            <label for="nama_prodi" class="form-label">Nama Prodi</label>
+                            <input type="text" class="form-control" id="nama_prodi" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="ketua_prodi" class="form-label">Ketua Prodi</label>
+                            <input type="text" class="form-control" id="ketua_prodi" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="jurusanIdProdi" class="form-label">Jurusan</label>
+                            <select class="form-select" id="jurusanIdProdi" required>
+                                <option value="">Pilih Jurusan</option>
+                                <!-- Options will be filled via JavaScript -->
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Edit User -->
+    <div class="modal fade" id="editUserModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editUserForm">
+                        <input type="hidden" id="editUserId">
+                        <div class="mb-3">
+                            <label for="editKode" class="form-label">Kode</label>
+                            <input type="text" class="form-control" id="editKode" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editNama" class="form-label">Nama</label>
+                            <input type="text" class="form-control" id="editNama" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editNoTelp" class="form-label">No. Telp</label>
+                            <input type="text" class="form-control" id="editNoTelp">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editJurusanId" class="form-label">Jurusan</label>
+                            <select class="form-select" id="editJurusanId" required>
+                                <option value="">Pilih Jurusan</option>
+                                <!-- Options will be filled via JavaScript -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editProdiId" class="form-label">Prodi</label>
+                            <select class="form-select" id="editProdiId">
+                                <option value="">Pilih Prodi</option>
+                                <!-- Options will be filled via JavaScript -->
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
