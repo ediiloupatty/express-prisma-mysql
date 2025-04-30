@@ -199,4 +199,4 @@ Link Repositori: [https://github.com/ediiloupatty/express-prisma-mysql](https://
 
 ---
 
-⭐ Dibuat dengan semangat untuk Politeknik Manado ⭐
+⭐ Politeknik Negeri Manado ⭐
