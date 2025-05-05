@@ -1,0 +1,51 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Jurusan {
+  id            Int      @id @default(autoincrement())
+  nama_jurusan  String   @unique
+  ketua_jurusan String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  // Relations
+  prodi         Prodi[]
+  user          User[]
+}
+
+model Prodi {
+  id          Int      @id @default(autoincrement())
+  nama_prodi  String   @unique
+  ketua_prodi String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  jurusanId   Int
+  jurusan     Jurusan  @relation(fields: [jurusanId], references: [id])
+  user        User[]
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  kode      String   @unique
+  nama      String
+  no_telp   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relations
+  jurusanId Int
+  jurusan   Jurusan  @relation(fields: [jurusanId], references: [id])
+  prodiId   Int?
+  prodi     Prodi?   @relation(fields: [prodiId], references: [id])
+}
